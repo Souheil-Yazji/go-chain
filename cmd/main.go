@@ -35,10 +35,11 @@ func calcHash(block blockchain.Block) []byte {
 	return hash
 }
 
+// the byte array output can be useful for debugging
 func String(block blockchain.Block, dataFmt int) string {
 	str := ""
 	if dataFmt == 0 {
-		str = fmt.Sprintf("Block: %+v\n", block) // %+v gives field name + value
+		str = fmt.Sprintf("Block: %+v\n", block) // %+v gives field name + default value
 	} else if dataFmt == 1 {
 		str = fmt.Sprintf("Block: {Index:%d Timestamp:%d Data:%q PreviousHash:%v Hash:%v}\n",
 			block.Index, block.Timestamp, block.Data, block.PreviousHash, block.Hash)
