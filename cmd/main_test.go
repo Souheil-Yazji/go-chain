@@ -15,7 +15,7 @@ var testData = "Hello, World!"
 func TestCreateBlk(t *testing.T) {
 	block := createBlk(testData)
 	assert.Equal(t, 0, block.Index)
-	assert.Equal(t, 0, block.Timestamp)
+	assert.Equal(t, "", block.Timestamp)
 	assert.Equal(t, []byte(testData), block.Data)
 	assert.Nil(t, block.PreviousHash)
 	assert.Nil(t, block.Hash)
@@ -24,13 +24,13 @@ func TestCreateBlk(t *testing.T) {
 func TestCalcHash(t *testing.T) {
 	block := blockchain.Block{
 		Index:        0,
-		Timestamp:    0,
+		Timestamp:    "",
 		Data:         []byte(testData),
 		PreviousHash: nil, // same as []byte{}
 		Hash:         nil,
 	}
 	hash := calcHash(block)
-	expectedHash := sha256.Sum256([]byte("0" + "0" + testData))
+	expectedHash := sha256.Sum256([]byte("0" + "" + testData))
 	assert.Equal(t, expectedHash[:], hash)
 }
 
@@ -39,7 +39,7 @@ func TestString(t *testing.T) {
 	strData := 1
 	block := blockchain.Block{
 		Index:        0,
-		Timestamp:    0,
+		Timestamp:    "",
 		Data:         []byte(testData),
 		PreviousHash: nil,
 		Hash:         nil,
@@ -49,7 +49,7 @@ func TestString(t *testing.T) {
 	assert.Equal(
 		t,
 		"Block: {Index:0 "+
-			"Timestamp:0 "+
+			"Timestamp: "+
 			"Data:[72 101 108 108 111 44 32 87 111 114 108 100 33] "+
 			"PreviousHash:[] "+
 			"Hash:[]}\n",
@@ -59,7 +59,7 @@ func TestString(t *testing.T) {
 	assert.Equal(
 		t,
 		"Block: {Index:0 "+
-			"Timestamp:0 "+
+			"Timestamp: "+
 			"Data:\"Hello, World!\" "+
 			"PreviousHash:[] "+
 			"Hash:[]}\n",
