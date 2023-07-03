@@ -29,7 +29,7 @@ This is a simple blockchain implementation using Golang. It demonstrates the bas
 ## Usage
 
 1. Run the application: 
-``` go run main.go```
+```go run main.go```
 
 2. No real way to interact with the application yet, coming soon!
 
@@ -52,7 +52,7 @@ Contributions are welcome! If you'd like to contribute to this project, please f
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the [Apache-2.0 license](LICENSE).
 
 
 ## Contact
