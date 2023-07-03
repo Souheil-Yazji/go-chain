@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"crypto/sha256"
 	"fmt"
 	"go-chain/pkg/blockchain"
@@ -13,6 +14,7 @@ func main() {
 
 }
 
+// init a block
 func createBlk(data string) blockchain.Block {
 	return blockchain.Block{
 		Index:        0,
@@ -48,6 +50,7 @@ func String(block blockchain.Block, dataFmt int) string {
 	return str
 }
 
+// generate the next block in the chain
 func genBlk(prevBlock blockchain.Block, data string) (blockchain.Block, error) {
 	var newBlock blockchain.Block
 
@@ -58,4 +61,22 @@ func genBlk(prevBlock blockchain.Block, data string) (blockchain.Block, error) {
 	newBlock.Hash = calcHash(newBlock)
 
 	return newBlock, nil
+}
+
+// validate block prior to commiting it to the chain
+func validateBlk(block blockchain.Block) bool {
+	calculatedHash := calcHash(block)
+
+	if !bytes.Equal(block.Hash, calculatedHash) {
+		return false
+	}
+
+	if block.Index > 0 {
+		previousBlock := Blockchain[block.Index-1]
+		if !bytes.Equal(previousBlock.Hash, block.PreviousHash) {
+			return false
+		}
+	}
+
+	return true
 }
