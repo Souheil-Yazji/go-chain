@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"go-chain/pkg/blockchain"
 	"time"
+
+	badger "github.com/dgraph-io/badger/v4"
 )
 
 var Blockchain []blockchain.Block
@@ -79,4 +81,13 @@ func validateBlk(block blockchain.Block) bool {
 	}
 
 	return true
+}
+
+func openDatabase() (*badger.DB, error) {
+	options := badger.DefaultOptions("").WithInMemory(false)
+	db, err := badger.Open(options)
+	if err != nil {
+		return nil, err
+	}
+	return db, nil
 }
