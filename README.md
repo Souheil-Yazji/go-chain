@@ -33,6 +33,13 @@ This is a simple blockchain implementation using Golang. It demonstrates the bas
 
 2. No real way to interact with the application yet, coming soon!
 
+## Testing
+
+The project includes tests to ensure the correctness of the blockchain functionality. To run the tests, use the following command:
+
+```go test ./...```
+
+
 ## Contributing
 
 Contributions are welcome! If you'd like to contribute to this project, please follow these steps:
