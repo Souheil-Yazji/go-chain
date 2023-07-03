@@ -4,21 +4,21 @@ import (
 	"bytes"
 	"crypto/sha256"
 	"fmt"
-	"go-chain/pkg/blockchain"
+	Blockchain "go-chain/pkg/blockchain"
 	"time"
 
 	badger "github.com/dgraph-io/badger/v4"
 )
 
-var Blockchain []blockchain.Block
+var blockchain []Blockchain.Block
 
 func main() {
 
 }
 
 // init a block
-func createBlk(data string) blockchain.Block {
-	return blockchain.Block{
+func createBlk(data string) Blockchain.Block {
+	return Blockchain.Block{
 		Index:        0,
 		Timestamp:    "",
 		Data:         []byte(data),
@@ -28,11 +28,11 @@ func createBlk(data string) blockchain.Block {
 }
 
 // dataFmt: 0 for byte slice, 1 for string representation
-func printBlk(block blockchain.Block, dataFmt int) {
+func printBlk(block Blockchain.Block, dataFmt int) {
 	fmt.Print(String(block, dataFmt))
 }
 
-func calcHash(block blockchain.Block) []byte {
+func calcHash(block Blockchain.Block) []byte {
 	record := fmt.Sprintf("%d%s%s", block.Index, block.Timestamp, block.Data)
 	h := sha256.New()
 	h.Write([]byte(record))
@@ -41,7 +41,7 @@ func calcHash(block blockchain.Block) []byte {
 }
 
 // the byte array output can be useful for debugging
-func String(block blockchain.Block, dataFmt int) string {
+func String(block Blockchain.Block, dataFmt int) string {
 	str := ""
 	if dataFmt == 0 {
 		str = fmt.Sprintf("Block: %+v\n", block) // %+v gives field name + default value
@@ -53,8 +53,8 @@ func String(block blockchain.Block, dataFmt int) string {
 }
 
 // generate the next block in the chain
-func genBlk(prevBlock blockchain.Block, data string) (blockchain.Block, error) {
-	var newBlock blockchain.Block
+func genBlk(prevBlock Blockchain.Block, data string) (blockchain.Block, error) {
+	var newBlock Blockchain.Block
 
 	newBlock.Index = prevBlock.Index + 1
 	newBlock.Timestamp = time.Now().String()
@@ -66,7 +66,7 @@ func genBlk(prevBlock blockchain.Block, data string) (blockchain.Block, error) {
 }
 
 // validate block prior to commiting it to the chain
-func validateBlk(block blockchain.Block) bool {
+func validateBlk(block Blockchain.Block) bool {
 	calculatedHash := calcHash(block)
 
 	if !bytes.Equal(block.Hash, calculatedHash) {
@@ -74,7 +74,7 @@ func validateBlk(block blockchain.Block) bool {
 	}
 
 	if block.Index > 0 {
-		previousBlock := Blockchain[block.Index-1]
+		previousBlock := blockchain[block.Index-1]
 		if !bytes.Equal(previousBlock.Hash, block.PreviousHash) {
 			return false
 		}
